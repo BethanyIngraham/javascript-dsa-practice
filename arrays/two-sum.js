@@ -29,39 +29,47 @@
  *   - arrays are not sorted
  *
  * Approach:
- * 1. keep track of first number
- * 2. keep track of second number (the one right after the first)
- * 3. add the value of both first and second numbers
- * 4. if they equal target, return indices of both
- * 5. if not, keep checking rest of numbers
+ *  Note - brute force was tried first
+ *  1. Store nums already seen in hash map along with indices
+ *  2. For current num, calculate complement num needed to reach target
+ *  3. Check hash map to see if complement exists - return indices of both
  * 
  * Optimal Version:
- *  (Hash Map - > include reason why)
+ *  Hash Map - to remember what's already been seen
+ *  instead of checking and comparing nums multiple times,
+ *  as well as quick lookup 
  * 
  * Patterns:
- *  (What to look for)
- * 
- * Time Complexity: O(n^2) -> brute force
- * Space Complexity: O(1)
+ *  Data type - array
+ *  Fast lookup - hash map
+ *  
+ * Time Complexity: O(n) - traverse array once
+ * Space Complexity: O(n) - use of array and hash map
  */
 
 function twoSum(nums, target) {
+    
+    // object stores numbers already seen and their indices
+    const visited = {}; 
 
-    for(let i = 0; i < nums.length; i++){ 
-        // outer loop tracks first num index
-        for(let j = i + 1; j < nums.length; j++) { 
-            // inner loop tracks second num index
-            if(nums[i] + nums[j] === target) { 
-                // add first and second numbers
-                // compare to target
-                // if they add up to target return indices of both
-                return [i, j]
-            }
-        }
-    }
+    // loop through nums array once
+    for(let i = 0; i < nums.length; i++) { 
+        // keep track of num currently on
+        const currentNum = nums[i]; 
+        // calculate num needed that when added to current num equals target
+        const complementNum = target - currentNum; 
         
+        // check to see if complement is already in visited
+        // if yes, return indices of complement and current
+        if(visited[complementNum] !== undefined) {
+            return [visited[complementNum], i]
+        }
+        // if not, store current num as key and its idx 
+        // as value in visited for later use
+        visited[currentNum] = i; 
+    }
 }
 
-// console.log('example 1 ->', twoSum([2,7,11,15], 9)); // Expected: [0,1]
-// console.log('example 2 ->', twoSum([3,2,4], 6)); // Expected: [1,2]
-// console.log('example 3 ->', twoSum([3,3], 6)); // Expected: [0,1]
+  // console.log('example 1 ->', twoSum([2,7,11,15], 9)); // Expected: [0,1]
+  // console.log('example 2 ->', twoSum([3,2,4], 6)); // Expected: [1,2]
+  // console.log('example 3 ->', twoSum([3,3], 6)); // Expected: [0,1]
