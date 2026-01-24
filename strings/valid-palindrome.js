@@ -51,13 +51,41 @@
  *      the letters match, return true
  * 
  *
- * Time Complexity: 
- * Space Complexity: 
+ * Time Complexity: O(n)
+ * Space Complexity: 0(n)
  *
  *
  */
 function isPalindrome(s) {
- // solution 
+
+ // change the string to all lowercase letters 
+ // remove all non-alphaneumeric characters
+ const modifiedString = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+ 
+ // if string is empty return true
+ if(s === "") return true
+
+ // initialize left pointer to first index in string 
+ let left = 0;
+
+ // initialize right pointer to last index in string
+ let right = modifiedString.length - 1;
+ 
+ // loop for as long as the left and right pointers don't overlap 
+ while(left < right) {
+
+    // if the letters on the left and right don't match return false
+    // if the letters do match, move the pointers to compare the next letters
+    // left increases its position by one 
+    // and right decreases its position by one
+    if(modifiedString[left] !== modifiedString[right]) {
+        return false
+    }
+    left++
+    right--
+ }
+ // the loop has finished and a palindrome exists
+ return true
 }
 
 
@@ -80,3 +108,7 @@ function isPalindrome(s) {
 //    one for the alphanumeric version and one for the reversed version
 // 2. I am looping through the strings many times to change 
 //    and make comparisons
+// 3. If I am using .split() .reverse() and .join(), it takes more 
+//    time to reverse the string (depending on how long it is) and then
+//    check for mismatched letters, while the two pointers method 
+//    immediately checks and compares them
