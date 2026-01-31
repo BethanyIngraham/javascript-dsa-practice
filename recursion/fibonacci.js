@@ -40,8 +40,16 @@
  *  - F(0) = 0 F(1) = 1 
  *  - 1 + 1 = 2, 1 + 2 = 3, 2 + 3 = 5, and so on...
  *  - So, F(2) is like calling the result of F(1) plus the result of F(0)
+ *  - Looking for the the number at index n from the start of the sequence,
+ *      which starts at 0 and 1
  * 
  * Approach:
+ * 1. If n is 0 or 1 return that number
+ * 2. Keep track of the first two numbers in the sequence
+ * 3. Starting after 1, move the pointers for the two numbers
+ *      up until the nth index is reached 
+ * 4. Return the value for the nth index (the second pointer)
+ * 
  * 
  * Patterns:
  *  - Recursion is when a function calls itself repeatedly until
@@ -52,21 +60,56 @@
  *      itself, recursion is better 
  *  - Without a base case, the function would never stop calling itself
  * 
- * Time Complexity: TBD
- * Space Complexity: TBD
+ * Time Complexity: O(n)
+ * Space Complexity: O(1)
  */
 
 function fib(n) {
 
-  // base case
+    // Iterative Solution
 
-  // recursion 
+    // base case 
+    if(n < 2) return n
 
-  // return
+    // previous number starts at 0
+    let prev = 0;
 
+    // current number starts at 1
+    let cur = 1;
+
+    // loop through the numbers starting after 0 and 1 
+    // up through the nth index
+    for(let i = 2; i <= n; i++) {
+        // take your two previous numbers and move them
+        // up one position by swapping - they each become the next value
+        [prev, cur] = [cur, prev + cur]
+    }
+
+    // b is the number at the nth index
+    return cur
   }
 
 // console.log(fib(2)) // Expected: 1
 // console.log(fib(3)) // Expected: 2
 // console.log(fib(4)) // Expected: 3
 
+/**
+ Original Approach:
+
+ // base case
+  if(n === 0) return 0
+  if(n === 1) return 1
+
+  // recursion 
+  return fib(n - 1) + fib(n - 2)
+
+  The problem - makes too many calls as it approaches 
+  the base case and creates a lot of calculations. The larger
+  the number of n, the more calls it makes. 
+
+  Time Complexity - O(2^n) very slow due to increase in n and 
+  amount of function calls
+
+  Space Complexity - O(n) due to amount of function calls on the
+  stack which is n
+ */
