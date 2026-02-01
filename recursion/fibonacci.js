@@ -44,11 +44,11 @@
  *      which starts at 0 and 1
  * 
  * Approach:
- * 1. If n is 0 or 1 return that number
- * 2. Keep track of the first two numbers in the sequence
- * 3. Starting after 1, move the pointers for the two numbers
- *      up until the nth index is reached 
- * 4. Return the value for the nth index (the second pointer)
+ * 1. Create object to store nth index and value for every call
+ * 2. Check object to see if n key and its value are already stored
+ * 3. If not, check to see if base case has been met
+ * 4. Store nth value in obj by adding the two numbers before it and store its key
+ * 5. When the nth index is reached, return it's value
  * 
  * 
  * Patterns:
@@ -61,37 +61,36 @@
  *  - Without a base case, the function would never stop calling itself
  * 
  * Time Complexity: O(n)
- * Space Complexity: O(1)
+ * Space Complexity: O(n)
  */
 
-function fib(n) {
+function fib(n, memo = {}) { // Memoization Solution 
 
-    // Iterative Solution
+    // the memo obj is passed through every call
+        // so they all have access to the same information
+    // reduces the amount of calculations made 
+    // quick lookup
 
-    // base case 
-    if(n < 2) return n
+    // check memo object to see if n is already stored in it
+    // have we already seen this before? If yes, return the value
+    if(n in memo) return memo[n];
+    
+    // base case - if it's the 0th or 1st index return 0 or 1
+    if(n <= 1) return n;
 
-    // previous number starts at 0
-    let prev = 0;
+    // recursive calls keep calling until a base case is reached
+    // then it sends up the result from those stacked calls 
+    // calculates the sum of previous and current numbers and assigns
+        // it to a key in memo obj
+    memo[n] = fib(n - 1, memo) + fib(n - 2, memo);
 
-    // current number starts at 1
-    let cur = 1;
-
-    // loop through the numbers starting after 0 and 1 
-    // up through the nth index
-    for(let i = 2; i <= n; i++) {
-        // take your two previous numbers and move them
-        // up one position by swapping - they each become the next value
-        [prev, cur] = [cur, prev + cur]
-    }
-
-    // b is the number at the nth index
-    return cur
+    // return the value of the nth index key 
+    return memo[n];
   }
 
-// console.log(fib(2)) // Expected: 1
-// console.log(fib(3)) // Expected: 2
-// console.log(fib(4)) // Expected: 3
+console.log(fib(2)) // Expected: 1
+console.log(fib(3)) // Expected: 2
+console.log(fib(4)) // Expected: 3
 
 /**
  Original Approach:
@@ -113,3 +112,31 @@ function fib(n) {
   Space Complexity - O(n) due to amount of function calls on the
   stack which is n
  */
+
+  /** 
+   
+    // Iterative Solution
+
+    // base case 
+    if(n < 2) return n
+
+    // previous number starts at 0
+    let prev = 0;
+
+    // current number starts at 1
+    let cur = 1;
+
+    // loop through the numbers starting after 0 and 1 
+    // up through the nth index
+    for(let i = 2; i <= n; i++) {
+        // take your two previous numbers and move them
+        // up one position by swapping - they each become the next value
+        [prev, cur] = [cur, prev + cur]
+    }
+
+    // b is the number at the nth index
+    return cur
+
+    Time Complexity - O(n)
+    Space Complexity - O(1)
+   */
