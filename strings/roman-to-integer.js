@@ -61,18 +61,54 @@
  * Approach:
  *  1. Store roman numerals and their values in object
  *  2. Iterate through string
- *  3. Each numeral can be looked up in obj to get value
- *  4. Add values
- *  5. Return sum
+ *  3. Each numeral can be looked up in obj to get its value on each loop
+ *  4. If an edge case occurs, subtract value of current num from result
+ *  5. Otherwise, keep adding nums to result
+ *  6. Return result
  * 
  * Question: How to handle 6 subtraction cases?
+ *  Subtract its value from result total
  *
- * Time Complexity: TBD
- * Space Complexity: TBD
+ * Time Complexity: O(1)
+ * Space Complexity: O(n)
  */
 
 function romanToInt(s) {
-    // solution here
+
+    // store roman numerals and their values in an object 
+    const romanNums = {
+        I : 1,
+        V : 5,
+        X : 10,
+        L : 50,
+        C : 100,
+        D : 500,
+        M : 1000
+    };
+
+    // initiate results total to 0
+    let result = 0;
+
+    // loop through string, s
+    for(let i = 0; i < s.length; i++) {
+
+        // on each loop get the current and next roman numeral values
+        const currentVal = romanNums[s[i]];
+        const nextVal = romanNums[s[i + 1]];
+        
+        // if the current number value is less than the next number value
+        // it's one of the six edge cases: 4,9, 40, 90, 400 or 900
+        // subtract that value from the results total to keep loop moving forward
+        // otherwise, add the current value to the results total
+        if(currentVal < nextVal) {
+            result -= currentVal
+        } else {
+            result += currentVal
+        }
+    }
+
+    // return result
+    return result
 }
 
 // console.log(romanToInt("III")) // Expected: 3
