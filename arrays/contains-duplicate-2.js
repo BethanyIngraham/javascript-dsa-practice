@@ -31,18 +31,29 @@
  *  - Math.abs() always returns a positive num
  *  - Return true or false
  *  - Possible for there to be no duplicates
+ *  - Both conditions must be met:
+ *      - nums[i] == nums[j] AND
+ *      - Math.abs(i - j) <= k
+ *  - Possible to make several passes to not only:
+ *      - find match but,
+ *      - see if indices are less than or equal to k
+ *     which wastes a lot of time! 
+ *  - QUICK LOOKUP -> {} for num and index
  *  
  * Approach:
- *  1. 
- *  2.
- *  3. 
+ *  1. Initiate empty object
+ *  2. Loop through nums array 
+ *  3. If current number is already in the object (duplicate found):
+ *      3a. Make comparison of current idx and stored idx
+ *      3b. If second condition, abs(i - j) <= k is met, return true
+ *  4. Else, store number and its index in object
  *
  * Time Complexity: TBD
  * Space Complexity: TBD
  */
 
 function containsNearbyDuplicate(nums, k) {
-    // solution
+
 }
 
 // console.log(containsNearbyDuplicate([1,2,3,1], 3)) // Expected: true
