@@ -47,13 +47,41 @@
  *      3a. Make comparison of current idx and stored idx
  *      3b. If second condition, abs(i - j) <= k is met, return true
  *  4. Else, store number and its index in object
+ *  5. If duplicate isn't found or condition not, met return false
  *
- * Time Complexity: TBD
- * Space Complexity: TBD
+ * Time Complexity: O(n) 
+ * Space Complexity: O(n) 
+ * 
+ * To Remember: 
+ *  Focus on the most recent index of a number seen
+ *  Update the object with latest index so it's 
+ *      within distance k of a duplicate
  */
 
 function containsNearbyDuplicate(nums, k) {
 
+    // create object to store numbers and their index from nums array
+    const numsObj = {};
+
+    // loop through nums array
+    for(let i = 0; i < nums.length; i++) {
+
+        // determine what the current number is
+        const currentNum = nums[i];
+
+        // if this current num has already been seen...
+        if(numsObj[currentNum] !== undefined) {
+            // check the distance condition and return true if met
+            if(i - numsObj[currentNum] <= k) return true
+        }
+
+        // update the object with the latest index
+        numsObj[currentNum] = i;
+    }
+
+    // if the end of the array is reached or 
+    // the distance condition is not met return false
+    return false
 }
 
 // console.log(containsNearbyDuplicate([1,2,3,1], 3)) // Expected: true
